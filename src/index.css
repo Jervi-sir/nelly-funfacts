@@ -1,6 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 @plugin "tailwindcss-animate";
 
@@ -66,69 +66,79 @@
 
 :root {
   --radius: 1rem;
-  /* More rounded for friendly feel */
 
-  /* Light Theme - Soft Pink & Rose */
-  --background: oklch(0.98 0.01 350);
-  --foreground: oklch(0.15 0.05 350);
+  /* Palette: Cherry Red, Purples, Browns */
 
-  --card: oklch(1 0 0 / 0.7);
-  /* Glassy default */
-  --card-foreground: oklch(0.15 0.05 350);
+  /* Light Theme: Warm Creamy Brown Background with Cherry/Purple Accents */
+  --background: oklch(0.97 0.01 50);
+  /* Very light warm brown/cream */
+  --foreground: oklch(0.25 0.04 40);
+  /* Deep Brown */
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.05 350);
+  --card: oklch(1 0 0 / 0.6);
+  --card-foreground: oklch(0.3 0.05 40);
 
-  --primary: oklch(0.65 0.22 350);
-  /* Vibrant Rose */
-  --primary-foreground: oklch(1 0 0);
+  --popover: oklch(0.99 0.01 50);
+  --popover-foreground: oklch(0.25 0.04 40);
 
-  --secondary: oklch(0.95 0.03 350);
-  --secondary-foreground: oklch(0.6 0.2 350);
+  /* Cherry Red Primary */
+  --primary: oklch(0.55 0.2 20);
+  --primary-foreground: oklch(0.98 0 0);
 
-  --muted: oklch(0.96 0.01 350);
-  --muted-foreground: oklch(0.5 0.05 350);
+  /* Purple Secondary */
+  --secondary: oklch(0.93 0.04 300);
+  /* Soft Lavender */
+  --secondary-foreground: oklch(0.4 0.15 300);
+  /* Deep Purple */
 
-  --accent: oklch(0.94 0.04 350);
-  --accent-foreground: oklch(0.6 0.2 350);
+  --muted: oklch(0.95 0.02 50);
+  --muted-foreground: oklch(0.5 0.05 40);
 
-  --destructive: oklch(0.6 0.15 25);
-  --destructive-foreground: oklch(1 0 0);
+  --accent: oklch(0.93 0.04 320);
+  /* Soft Purple/Pink */
+  --accent-foreground: oklch(0.45 0.15 300);
 
-  --border: oklch(0.9 0.03 350);
-  --input: oklch(0.9 0.03 350);
-  --ring: oklch(0.7 0.15 350);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(0.9 0.03 50);
+  --input: oklch(0.9 0.03 50);
+  --ring: oklch(0.55 0.2 20);
+  /* Cherry Red Ring */
 }
 
 .dark {
-  /* Dark Theme - Deep Purple & Neon Pink/Red */
-  --background: oklch(0.1 0.03 350);
-  --foreground: oklch(0.98 0.01 350);
+  /* Dark Theme: Deep Purple/Brown Background with Neon Cherry Accents */
+  --background: oklch(0.15 0.04 300);
+  /* Deep Purple-ish Black */
+  --foreground: oklch(0.95 0.02 50);
+  /* Light Cream */
 
-  --card: oklch(0.15 0.04 350 / 0.6);
-  --card-foreground: oklch(0.98 0.01 350);
+  --card: oklch(0.2 0.04 310 / 0.6);
+  --card-foreground: oklch(0.95 0.02 50);
 
-  --popover: oklch(0.15 0.04 350);
-  --popover-foreground: oklch(0.98 0.01 350);
+  --popover: oklch(0.18 0.04 300);
+  --popover-foreground: oklch(0.95 0.02 50);
 
-  --primary: oklch(0.65 0.22 350);
-  --primary-foreground: oklch(1 0 0);
+  /* Vibrant Cherry */
+  --primary: oklch(0.6 0.22 20);
+  --primary-foreground: oklch(0.15 0.04 300);
 
-  --secondary: oklch(0.2 0.05 350);
-  --secondary-foreground: oklch(0.98 0.01 350);
+  --secondary: oklch(0.25 0.06 320);
+  --secondary-foreground: oklch(0.95 0.02 50);
 
-  --muted: oklch(0.2 0.05 350);
-  --muted-foreground: oklch(0.7 0.05 350);
+  --muted: oklch(0.25 0.04 300);
+  --muted-foreground: oklch(0.7 0.04 300);
 
-  --accent: oklch(0.25 0.06 350);
-  --accent-foreground: oklch(0.98 0.01 350);
+  --accent: oklch(0.3 0.08 320);
+  --accent-foreground: oklch(0.95 0.02 50);
 
-  --destructive: oklch(0.5 0.15 25);
-  --destructive-foreground: oklch(0.98 0.01 350);
+  --destructive: oklch(0.5 0.2 25);
+  --destructive-foreground: oklch(0.95 0.02 50);
 
-  --border: oklch(0.25 0.05 350);
-  --input: oklch(0.25 0.05 350);
-  --ring: oklch(0.6 0.18 350);
+  --border: oklch(0.25 0.04 300);
+  --input: oklch(0.25 0.04 300);
+  --ring: oklch(0.6 0.22 20);
 }
 
 @layer utilities {
@@ -143,12 +153,12 @@
   }
 
   .glass-card {
-    @apply backdrop-blur-xl border border-white/30 shadow-xl;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.4) 100%);
+    @apply backdrop-blur-xl border border-white/40 shadow-xl;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 100%);
   }
 
   .dark .glass-card {
-    background: linear-gradient(135deg, rgba(30, 30, 40, 0.7) 0%, rgba(30, 30, 40, 0.4) 100%);
+    background: linear-gradient(135deg, oklch(0.2 0.04 310 / 0.7) 0%, oklch(0.2 0.04 310 / 0.4) 100%);
     @apply border-white/10;
   }
 }
@@ -161,14 +171,19 @@
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
     font-family: 'Outfit', sans-serif;
+    /* Gradient mixing Purple, Brown, and Cherry Red influences */
     background-image:
-      radial-gradient(circle at 10% 20%, oklch(0.95 0.05 350 / 0.5) 0%, transparent 20%),
-      radial-gradient(circle at 90% 80%, oklch(0.9 0.1 320 / 0.3) 0%, transparent 25%);
+      radial-gradient(circle at 15% 25%, oklch(0.6 0.1 20 / 0.15) 0%, transparent 40%),
+      /* Cherry Red Hint */
+      radial-gradient(circle at 85% 75%, oklch(0.5 0.1 300 / 0.15) 0%, transparent 40%);
+    /* Purple Hint */
   }
 
   .dark body {
     background-image:
-      radial-gradient(circle at 10% 20%, oklch(0.2 0.1 350 / 0.3) 0%, transparent 20%),
-      radial-gradient(circle at 90% 80%, oklch(0.2 0.1 320 / 0.3) 0%, transparent 25%);
+      radial-gradient(circle at 10% 20%, oklch(0.4 0.15 300 / 0.2) 0%, transparent 30%),
+      /* Purple */
+      radial-gradient(circle at 90% 80%, oklch(0.4 0.15 20 / 0.2) 0%, transparent 30%);
+    /* Red */
   }
 }
