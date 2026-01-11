@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Fact } from '../types';
+import type { Fact } from '../types';
 
 const STORAGE_KEY = 'khadidja-facts-storage';
 
