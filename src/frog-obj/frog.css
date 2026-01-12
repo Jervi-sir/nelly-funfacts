@@ -6,8 +6,10 @@
   --eye-outside: #fff;
   --eye-dot: #fff;
   --eye-inside: #000;
-  --belly-inside: #cddc39;
-  --skin: #37bb83;
+  --belly-inside: #d8b4fe;
+  /* Light Lavender */
+  --skin: #7e22ce;
+  /* Deep Purple */
 }
 
 .frog {
