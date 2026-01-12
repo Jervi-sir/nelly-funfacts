@@ -15,6 +15,7 @@ interface FactCardProps {
 
 export function FactCard({ fact, onUpdate, onDelete, index }: FactCardProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [editedContent, setEditedContent] = useState(fact.content);
 
   const handleSave = () => {
@@ -48,7 +49,7 @@ export function FactCard({ fact, onUpdate, onDelete, index }: FactCardProps) {
           <Calendar className="w-3 h-3" />
           <span>{formattedDate}</span>
         </div>
-        {!isEditing && (
+        {!isEditing && !isDeleting && (
           <div className="flex gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
             <Button
               variant="ghost"
@@ -62,9 +63,30 @@ export function FactCard({ fact, onUpdate, onDelete, index }: FactCardProps) {
               variant="ghost"
               size="icon"
               className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-              onClick={() => onDelete(fact.id)}
+              onClick={() => setIsDeleting(true)}
             >
               <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
+        )}
+        {isDeleting && (
+          <div className="flex gap-2 items-center animate-in fade-in slide-in-from-right-4 duration-200">
+            <span className="text-xs text-destructive font-medium">Delete?</span>
+            <Button
+              size="sm"
+              variant="destructive"
+              className="h-7 px-2 text-xs"
+              onClick={() => onDelete(fact.id)}
+            >
+              Yes
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 px-2 text-xs"
+              onClick={() => setIsDeleting(false)}
+            >
+              No
             </Button>
           </div>
         )}
