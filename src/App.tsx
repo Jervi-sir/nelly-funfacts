@@ -5,14 +5,16 @@ import { FactCard } from './components/fact-card';
 import { LockScreen } from './components/lock-screen';
 import { Heart } from 'lucide-react';
 import { ThemeProvider } from './components/theme-provider';
+import { useTarget } from './components/target-provider';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { facts, addFact, updateFact, deleteFact, isLoading } = useFacts();
+  const { target } = useTarget();
+  const { facts, addFact, updateFact, deleteFact, isLoading } = useFacts(target);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="min-h-screen pb-12 px-4 sm:px-6 lg:px-8 flex justify-center relative">
+      <div className="min-h-screen pb-12 px-4 sm:px-6 lg:px-8 flex justify-center relative transition-colors duration-500">
 
         <div className="w-full max-w-2xl space-y-8 pt-12">
 
@@ -22,11 +24,11 @@ function App() {
             <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4 ring-1 ring-primary/20 backdrop-blur-sm">
               <Heart className="w-8 h-8 text-primary fill-primary/20 animate-pulse" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground/90 drop-shadow-sm">
-              Khadidja's <span className="text-primary italic">Fun Facts</span>
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground/90 drop-shadow-sm capitalize">
+              {target}'s <span className="text-primary italic">Fun Facts</span>
             </h1>
             <p className="text-lg text-muted-foreground/80 font-medium">
-              A collection of things that make her special
+              A collection of things that make {target === 'khadidja' ? 'her' : 'him'} special
             </p>
           </div>
 

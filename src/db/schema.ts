@@ -7,6 +7,7 @@ export const facts = pgTable('facts', {
   userAgent: text('user_agent'),
   location: text('location'),
   tags: text('tags').array(),
+  target: text('target').default('khadidja').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().$onUpdate(() => new Date()),
 });

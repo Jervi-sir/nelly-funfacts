@@ -4,24 +4,29 @@ import { facts as factsSchema } from '../db/schema';
 import { desc, eq } from 'drizzle-orm';
 import type { Fact } from '../types';
 
-export function useFacts() {
+export function useFacts(target: string) {
   const [facts, setFacts] = useState<Fact[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const loadFacts = async () => {
-    try {
-      const result = await db.select().from(factsSchema).orderBy(desc(factsSchema.createdAt));
-      setFacts(result);
-    } catch (error) {
-      console.error('Failed to load facts:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const loadFacts = async () => {
+      setIsLoading(true);
+      try {
+        const result = await db
+          .select()
+          .from(factsSchema)
+          .where(eq(factsSchema.target, target))
+          .orderBy(desc(factsSchema.createdAt));
+        setFacts(result);
+      } catch (error) {
+        console.error('Failed to load facts:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     loadFacts();
-  }, []);
+  }, [target]);
 
   const addFact = async (content: string, tags: string[] = []) => {
     try {
@@ -47,6 +52,7 @@ export function useFacts() {
         userAgent,
         location,
         tags,
+        target,
       }).returning();
 
       setFacts((prev) => [newFact, ...prev]);

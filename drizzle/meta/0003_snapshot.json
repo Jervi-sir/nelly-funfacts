@@ -1,6 +1,6 @@
 {
-  "id": "9b033522-5a0d-4021-9e19-f523e5a43cab",
-  "prevId": "cef95b17-0808-438d-97a1-446fa28d2273",
+  "id": "6464ad64-893d-47e9-9fbd-f33ba0b8f20e",
+  "prevId": "87c0735c-88ad-4bd5-9091-eef693ed7ed0",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -44,6 +44,13 @@
           "type": "text[]",
           "primaryKey": false,
           "notNull": false
+        },
+        "target": {
+          "name": "target",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'khadidja'"
         },
         "created_at": {
           "name": "created_at",

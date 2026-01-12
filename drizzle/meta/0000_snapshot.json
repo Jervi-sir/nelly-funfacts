@@ -1,5 +1,5 @@
 {
-  "id": "cef95b17-0808-438d-97a1-446fa28d2273",
+  "id": "87c0735c-88ad-4bd5-9091-eef693ed7ed0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -36,6 +36,12 @@
         "location": {
           "name": "location",
           "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tags": {
+          "name": "tags",
+          "type": "text[]",
           "primaryKey": false,
           "notNull": false
         },

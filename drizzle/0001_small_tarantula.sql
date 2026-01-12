@@ -1,1 +1,0 @@
-ALTER TABLE "facts" ADD COLUMN "tags" text[];

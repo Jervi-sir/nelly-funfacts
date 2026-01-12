@@ -4,8 +4,10 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { Sparkles, Plus } from 'lucide-react';
 import { FrogObject } from '@/frog-obj/frog-object';
-import { ModeToggle } from './mode-toggle';
 import { TAG_OPTIONS } from '../constants';
+import { useTarget } from './target-provider';
+import { SelectTarget } from './select-target';
+import { ModeToggle } from './mode-toggle';
 
 interface AddFactFormProps {
   onAdd: (content: string, tags: string[]) => void;
@@ -15,6 +17,7 @@ export function AddFactForm({ onAdd }: AddFactFormProps) {
   const [content, setContent] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedTag, setSelectedTag] = useState<string>(TAG_OPTIONS[0]);
+  const { target } = useTarget();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,15 +36,15 @@ export function AddFactForm({ onAdd }: AddFactFormProps) {
           <div className='flex items-center gap-4'>
             <Button
               variant="ghost"
-              className="flex-1 h-12 flex items-center justify-center gap-2 text-muted-foreground hover:text-primary cursor-pointer"
+              className="flex-1 h-12 flex items-center justify-center gap-2 text-muted-foreground hover:text-primary cursor-pointer w-full"
               onClick={() => setIsExpanded(true)}
             >
               <Plus className="w-5 h-5" />
-              <span>Add a new fun fact about Khadidja...</span>
+              <span className="capitalize">Add a new fun fact about {target}...</span>
             </Button>
-            <div className="">
-              <ModeToggle />
-            </div>
+
+            <SelectTarget />
+            <ModeToggle />
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 animate-in slide-in-from-top-2">

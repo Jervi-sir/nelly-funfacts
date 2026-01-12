@@ -5,6 +5,7 @@ export interface Fact {
   userAgent?: string | null;
   location?: string | null;
   tags?: string[] | null;
+  target: string;
   createdAt: number | Date;
   updatedAt?: number | Date | null;
 }
