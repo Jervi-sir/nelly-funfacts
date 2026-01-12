@@ -9,8 +9,9 @@ import { useTarget } from './components/target-provider';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
   const { target } = useTarget();
-  const { facts, addFact, updateFact, deleteFact, isLoading } = useFacts(target);
+  const { facts, addFact, updateFact, deleteFact, isLoading } = useFacts(target, password);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -33,7 +34,10 @@ function App() {
           </div>
 
           {!isAuthenticated ? (
-            <LockScreen onUnlock={() => setIsAuthenticated(true)} />
+            <LockScreen onUnlock={(pwd) => {
+              setPassword(pwd);
+              setIsAuthenticated(true);
+            }} />
           ) : (
             <>
               {/* Add Form */}

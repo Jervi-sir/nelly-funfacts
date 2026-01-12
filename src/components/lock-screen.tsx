@@ -5,20 +5,36 @@ import { Button } from './ui/button';
 import { Lock, Heart } from 'lucide-react';
 
 interface LockScreenProps {
-  onUnlock: () => void;
+  onUnlock: (password: string) => void;
 }
 
 export function LockScreen({ onUnlock }: LockScreenProps) {
   const [answer, setAnswer] = useState('');
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (answer.trim().toLowerCase() === 'nelly') {
-      onUnlock();
-    } else {
+    setIsLoading(true);
+
+    try {
+      const res = await fetch('/.netlify/functions/verify', {
+        headers: {
+          'X-Api-Password': answer.trim(),
+        },
+      });
+
+      if (res.ok) {
+        onUnlock(answer);
+      } else {
+        setError(true);
+        setAnswer('');
+      }
+    } catch (err) {
+      console.error('Verification failed:', err);
       setError(true);
-      setAnswer('');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,10 +63,11 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
                 setError(false);
               }}
               className={`text-center text-lg h-12 transition-all duration-200 ${error
-                  ? 'border-destructive/50 ring-destructive/20 bg-destructive/5'
-                  : 'border-primary/20 focus-visible:ring-primary'
+                ? 'border-destructive/50 ring-destructive/20 bg-destructive/5'
+                : 'border-primary/20 focus-visible:ring-primary'
                 }`}
               autoFocus
+              disabled={isLoading}
             />
             {error && (
               <p className="text-sm text-destructive text-center font-medium animate-in fade-in slide-in-from-top-1">
@@ -60,9 +77,10 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
           </div>
           <Button
             type="submit"
+            disabled={isLoading}
             className="w-full h-11 text-lg font-medium bg-primary hover:bg-primary/90 transition-all duration-300 hover:scale-[1.02] cursor-pointer"
           >
-            Unlock Access
+            {isLoading ? 'Verifying...' : 'Unlock Access'}
           </Button>
 
           <div className="pt-4 flex justify-center">

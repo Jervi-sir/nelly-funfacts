@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[dev]
+  framework = "#auto"
+  targetPort = 5173
+
+
+[[edge_functions]]
+function = "facts"
+path = "/test"

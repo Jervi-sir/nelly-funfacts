@@ -15,4 +15,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      "/.netlify/functions": {
+        target: "https://khadidja-funfacts.netlify.app",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 })
