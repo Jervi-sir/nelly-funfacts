@@ -2,5 +2,5 @@ import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from './schema';
 
-const sql = neon(import.meta.env.VITE_DATABASE_URL!);
+const sql = neon(import.meta.env.NETLIFY_DATABASE_URL_UNPOOLED!);
 export const db = drizzle(sql, { schema });
