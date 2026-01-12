@@ -1,43 +1,83 @@
 import { useState, useEffect } from 'react';
+import { db } from '../db';
+import { facts as factsSchema } from '../db/schema';
+import { desc, eq } from 'drizzle-orm';
 import type { Fact } from '../types';
 
-const STORAGE_KEY = 'khadidja-facts-storage';
-
 export function useFacts() {
-  const [facts, setFacts] = useState<Fact[]>(() => {
+  const [facts, setFacts] = useState<Fact[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const loadFacts = async () => {
     try {
-      const item = window.localStorage.getItem(STORAGE_KEY);
-      return item ? JSON.parse(item) : [];
+      const result = await db.select().from(factsSchema).orderBy(desc(factsSchema.createdAt));
+      setFacts(result);
     } catch (error) {
-      console.error(error);
-      return [];
+      console.error('Failed to load facts:', error);
+    } finally {
+      setIsLoading(false);
     }
-  });
+  };
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(facts));
-  }, [facts]);
+    loadFacts();
+  }, []);
 
-  const addFact = (content: string) => {
-    const newFact: Fact = {
-      id: crypto.randomUUID(),
-      content,
-      createdAt: Date.now(),
-    };
-    setFacts((prev) => [newFact, ...prev]);
+  const addFact = async (content: string) => {
+    try {
+      // Gather tracking info
+      let ipAddress: string | null = null;
+      let location: string | null = null;
+      const userAgent = navigator.userAgent;
+
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        if (res.ok) {
+          const data = await res.json();
+          ipAddress = data.ip;
+          location = [data.city, data.region, data.country_name].filter(Boolean).join(', ');
+        }
+      } catch (e) {
+        console.warn('Failed to fetch tracking info:', e);
+      }
+
+      const [newFact] = await db.insert(factsSchema).values({
+        content,
+        ipAddress,
+        userAgent,
+        location,
+      }).returning();
+
+      setFacts((prev) => [newFact, ...prev]);
+    } catch (error) {
+      console.error('Failed to add fact:', error);
+    }
   };
 
-  const updateFact = (id: string, content: string) => {
-    setFacts((prev) =>
-      prev.map((fact) =>
-        fact.id === id ? { ...fact, content, updatedAt: Date.now() } : fact
-      )
-    );
+  const updateFact = async (id: string, content: string) => {
+    try {
+      const [updatedFact] = await db
+        .update(factsSchema)
+        .set({ content, updatedAt: new Date() })
+        .where(eq(factsSchema.id, id))
+        .returning();
+
+      setFacts((prev) =>
+        prev.map((fact) => (fact.id === id ? updatedFact : fact))
+      );
+    } catch (error) {
+      console.error('Failed to update fact:', error);
+    }
   };
 
-  const deleteFact = (id: string) => {
-    setFacts((prev) => prev.filter((fact) => fact.id !== id));
+  const deleteFact = async (id: string) => {
+    try {
+      await db.delete(factsSchema).where(eq(factsSchema.id, id));
+      setFacts((prev) => prev.filter((fact) => fact.id !== id));
+    } catch (error) {
+      console.error('Failed to delete fact:', error);
+    }
   };
 
-  return { facts, addFact, updateFact, deleteFact };
+  return { facts, addFact, updateFact, deleteFact, isLoading };
 }

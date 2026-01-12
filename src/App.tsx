@@ -4,7 +4,7 @@ import { FactCard } from './components/fact-card';
 import { Heart } from 'lucide-react';
 
 function App() {
-  const { facts, addFact, updateFact, deleteFact } = useFacts();
+  const { facts, addFact, updateFact, deleteFact, isLoading } = useFacts();
 
   return (
     <div className="min-h-screen pb-12 px-4 sm:px-6 lg:px-8 flex justify-center">
@@ -29,7 +29,12 @@ function App() {
 
         {/* List */}
         <div className="space-y-4">
-          {facts.length === 0 ? (
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto" />
+              <p className="text-muted-foreground mt-4">Loading facts...</p>
+            </div>
+          ) : facts.length === 0 ? (
             <div className="text-center py-12 px-4 rounded-xl border border-dashed border-muted-foreground/20 bg-muted/30">
               <p className="text-muted-foreground">No facts yet! Start adding some fun facts about Khadidja.</p>
             </div>

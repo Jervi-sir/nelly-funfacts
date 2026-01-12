@@ -3,6 +3,9 @@ import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 export const facts = pgTable('facts', {
   id: uuid('id').defaultRandom().primaryKey(),
   content: text('content').notNull(),
+  ipAddress: text('ip_address'),
+  userAgent: text('user_agent'),
+  location: text('location'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().$onUpdate(() => new Date()),
 });

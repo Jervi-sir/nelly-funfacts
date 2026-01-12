@@ -1,8 +1,8 @@
-import React from 'react';
+import './frog.css';
 
 export const FrogObject = () => {
   return (
-    <>
+    <div className="frog-container">
       <div className="frog">
         <div className="frog__body">
           <div className="frog__head"></div>
@@ -15,6 +15,6 @@ export const FrogObject = () => {
         </div>
         <div className="frog__floor"></div>
       </div>
-    </>
+    </div>
   );
 };
