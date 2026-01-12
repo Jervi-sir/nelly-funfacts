@@ -1,7 +1,7 @@
 :root {
   --size: 40;
   --unit: calc((var(--size) / 360) * .5vmin);
-  --background: #ffc0d3;
+  /* --background: #ffc0d3; */
   --belly: #fff;
   --eye-outside: #fff;
   --eye-dot: #fff;

@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { useFacts } from './hooks/use-facts';
 import { AddFactForm } from './components/add-fact-form';
 import { FactCard } from './components/fact-card';
+import { LockScreen } from './components/lock-screen';
 import { Heart } from 'lucide-react';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { facts, addFact, updateFact, deleteFact, isLoading } = useFacts();
 
   return (
@@ -24,32 +27,38 @@ function App() {
           </p>
         </div>
 
-        {/* Add Form */}
-        <AddFactForm onAdd={addFact} />
+        {!isAuthenticated ? (
+          <LockScreen onUnlock={() => setIsAuthenticated(true)} />
+        ) : (
+          <>
+            {/* Add Form */}
+            <AddFactForm onAdd={addFact} />
 
-        {/* List */}
-        <div className="space-y-4">
-          {isLoading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto" />
-              <p className="text-muted-foreground mt-4">Loading facts...</p>
+            {/* List */}
+            <div className="space-y-4">
+              {isLoading ? (
+                <div className="text-center py-12">
+                  <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto" />
+                  <p className="text-muted-foreground mt-4">Loading facts...</p>
+                </div>
+              ) : facts.length === 0 ? (
+                <div className="text-center py-12 px-4 rounded-xl border border-dashed border-muted-foreground/20 bg-muted/30">
+                  <p className="text-muted-foreground">No facts yet! Start adding some fun facts about Khadidja.</p>
+                </div>
+              ) : (
+                facts.map((fact, index) => (
+                  <FactCard
+                    key={fact.id}
+                    index={index}
+                    fact={fact}
+                    onUpdate={updateFact}
+                    onDelete={deleteFact}
+                  />
+                ))
+              )}
             </div>
-          ) : facts.length === 0 ? (
-            <div className="text-center py-12 px-4 rounded-xl border border-dashed border-muted-foreground/20 bg-muted/30">
-              <p className="text-muted-foreground">No facts yet! Start adding some fun facts about Khadidja.</p>
-            </div>
-          ) : (
-            facts.map((fact, index) => (
-              <FactCard
-                key={fact.id}
-                index={index}
-                fact={fact}
-                onUpdate={updateFact}
-                onDelete={deleteFact}
-              />
-            ))
-          )}
-        </div>
+          </>
+        )}
 
         {/* Footer */}
         <div className="text-center py-8 text-sm text-muted-foreground/50">
