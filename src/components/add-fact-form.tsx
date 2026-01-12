@@ -33,10 +33,10 @@ export function AddFactForm({ onAdd }: AddFactFormProps) {
     <Card className="relative border-2 border-dashed border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors mb-8 shadow-sm">
       <CardContent className="p-4">
         {!isExpanded ? (
-          <div className='flex items-center gap-4'>
+          <div className='flex items-center flex-wrap justify-center gap-4'>
             <Button
               variant="ghost"
-              className="flex-1 h-12 flex items-center justify-center gap-2 text-muted-foreground hover:text-primary cursor-pointer w-full"
+              className="flex-1 h-12 flex items-center justify-center gap-2 text-muted-foreground hover:text-primary cursor-pointer"
               onClick={() => setIsExpanded(true)}
             >
               <Plus className="w-5 h-5" />
