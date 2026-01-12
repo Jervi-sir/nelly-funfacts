@@ -6,6 +6,7 @@ export const facts = pgTable('facts', {
   ipAddress: text('ip_address'),
   userAgent: text('user_agent'),
   location: text('location'),
+  tags: text('tags').array(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().$onUpdate(() => new Date()),
 });

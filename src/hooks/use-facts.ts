@@ -23,7 +23,7 @@ export function useFacts() {
     loadFacts();
   }, []);
 
-  const addFact = async (content: string) => {
+  const addFact = async (content: string, tags: string[] = []) => {
     try {
       // Gather tracking info
       let ipAddress: string | null = null;
@@ -46,6 +46,7 @@ export function useFacts() {
         ipAddress,
         userAgent,
         location,
+        tags,
       }).returning();
 
       setFacts((prev) => [newFact, ...prev]);
@@ -54,11 +55,11 @@ export function useFacts() {
     }
   };
 
-  const updateFact = async (id: string, content: string) => {
+  const updateFact = async (id: string, content: string, tags: string[]) => {
     try {
       const [updatedFact] = await db
         .update(factsSchema)
-        .set({ content, updatedAt: new Date() })
+        .set({ content, tags, updatedAt: new Date() })
         .where(eq(factsSchema.id, id))
         .returning();
 

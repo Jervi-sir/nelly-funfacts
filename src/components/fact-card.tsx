@@ -6,9 +6,11 @@ import { Textarea } from './ui/textarea';
 import { Pencil, Trash2, Check, X, Calendar, Heart } from 'lucide-react';
 import { cn } from '../lib/utils'; // Assuming this exists from shadcn init
 
+import { TAG_OPTIONS } from '../constants';
+
 interface FactCardProps {
   fact: Fact;
-  onUpdate: (id: string, content: string) => void;
+  onUpdate: (id: string, content: string, tags: string[]) => void;
   onDelete: (id: string) => void;
   index: number;
 }
@@ -17,10 +19,11 @@ export function FactCard({ fact, onUpdate, onDelete, index }: FactCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editedContent, setEditedContent] = useState(fact.content);
+  const [editedTag, setEditedTag] = useState<string>(fact.tags?.[0] || TAG_OPTIONS[0]);
 
   const handleSave = () => {
     if (editedContent.trim()) {
-      onUpdate(fact.id, editedContent);
+      onUpdate(fact.id, editedContent, [editedTag]);
       setIsEditing(false);
     }
   };
@@ -48,6 +51,21 @@ export function FactCard({ fact, onUpdate, onDelete, index }: FactCardProps) {
         <div className="flex items-center text-xs text-muted-foreground gap-1">
           <Calendar className="w-3 h-3" />
           <span>{formattedDate}</span>
+          {!isEditing && fact.tags && fact.tags.length > 0 && (
+            <>
+              <span className="mx-1">•</span>
+              <div className="flex gap-1">
+                {fact.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold transition-colors border-transparent ring-1 ring-primary/20 bg-primary/5 text-primary capitalize"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
         </div>
         {!isEditing && !isDeleting && (
           <div className="flex gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
@@ -55,7 +73,11 @@ export function FactCard({ fact, onUpdate, onDelete, index }: FactCardProps) {
               variant="ghost"
               size="icon"
               className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10"
-              onClick={() => setIsEditing(true)}
+              onClick={() => {
+                setIsEditing(true);
+                setEditedContent(fact.content);
+                setEditedTag(fact.tags?.[0] || TAG_OPTIONS[0]);
+              }}
             >
               <Pencil className="w-4 h-4" />
             </Button>
@@ -94,12 +116,28 @@ export function FactCard({ fact, onUpdate, onDelete, index }: FactCardProps) {
 
       <CardContent className="pb-6">
         {isEditing ? (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Textarea
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
               className="min-h-[100px] bg-background/50 backdrop-blur-sm resize-none focus-visible:ring-primary"
             />
+
+            <div className="flex flex-wrap gap-2">
+              {TAG_OPTIONS.map((tag) => (
+                <Button
+                  key={tag}
+                  type="button"
+                  variant={editedTag === tag ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setEditedTag(tag)}
+                  className={`capitalize text-xs h-7 ${editedTag === tag ? 'bg-primary text-primary-foreground' : 'bg-transparent border-primary/20 hover:bg-primary/10'}`}
+                >
+                  {tag}
+                </Button>
+              ))}
+            </div>
+
             <div className="flex justify-end gap-2">
               <Button size="sm" variant="ghost" onClick={() => setIsEditing(false)}>
                 <X className="w-4 h-4 mr-1" /> Cancel

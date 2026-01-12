@@ -4,6 +4,7 @@ export interface Fact {
   ipAddress?: string | null;
   userAgent?: string | null;
   location?: string | null;
+  tags?: string[] | null;
   createdAt: number | Date;
   updatedAt?: number | Date | null;
 }

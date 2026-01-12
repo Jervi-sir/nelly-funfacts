@@ -5,20 +5,23 @@ import { Textarea } from './ui/textarea';
 import { Sparkles, Plus } from 'lucide-react';
 import { FrogObject } from '@/frog-obj/frog-object';
 import { ModeToggle } from './mode-toggle';
+import { TAG_OPTIONS } from '../constants';
 
 interface AddFactFormProps {
-  onAdd: (content: string) => void;
+  onAdd: (content: string, tags: string[]) => void;
 }
 
 export function AddFactForm({ onAdd }: AddFactFormProps) {
   const [content, setContent] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedTag, setSelectedTag] = useState<string>(TAG_OPTIONS[0]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (content.trim()) {
-      onAdd(content);
+      onAdd(content, [selectedTag]);
       setContent('');
+      setSelectedTag(TAG_OPTIONS[0]);
       setIsExpanded(false);
     }
   };
@@ -52,6 +55,22 @@ export function AddFactForm({ onAdd }: AddFactFormProps) {
                 autoFocus
               />
             </div>
+
+            <div className="flex flex-wrap gap-2 pl-7">
+              {TAG_OPTIONS.map((tag) => (
+                <Button
+                  key={tag}
+                  type="button"
+                  variant={selectedTag === tag ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedTag(tag)}
+                  className={`capitalize text-xs h-7 ${selectedTag === tag ? 'bg-primary text-primary-foreground' : 'bg-transparent border-primary/20 hover:bg-primary/10'}`}
+                >
+                  {tag}
+                </Button>
+              ))}
+            </div>
+
             <div className="flex justify-end gap-2">
               <Button type="button" variant="ghost" onClick={() => setIsExpanded(false)}>
                 Cancel
