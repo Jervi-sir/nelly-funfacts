@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { Sparkles, Plus } from 'lucide-react';
 import { FrogObject } from '@/frog-obj/frog-object';
+import { ModeToggle } from './mode-toggle';
 
 interface AddFactFormProps {
   onAdd: (content: string) => void;
@@ -26,14 +27,19 @@ export function AddFactForm({ onAdd }: AddFactFormProps) {
     <Card className="relative border-2 border-dashed border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors mb-8 shadow-sm">
       <CardContent className="p-4">
         {!isExpanded ? (
-          <Button
-            variant="ghost"
-            className="w-full h-12 flex items-center justify-center gap-2 text-muted-foreground hover:text-primary cursor-pointer"
-            onClick={() => setIsExpanded(true)}
-          >
-            <Plus className="w-5 h-5" />
-            <span>Add a new fun fact about Khadidja...</span>
-          </Button>
+          <div className='flex items-center gap-4'>
+            <Button
+              variant="ghost"
+              className="flex-1 h-12 flex items-center justify-center gap-2 text-muted-foreground hover:text-primary cursor-pointer"
+              onClick={() => setIsExpanded(true)}
+            >
+              <Plus className="w-5 h-5" />
+              <span>Add a new fun fact about Khadidja...</span>
+            </Button>
+            <div className="">
+              <ModeToggle />
+            </div>
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 animate-in slide-in-from-top-2">
             <div className="flex items-start gap-2">
